@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/doc/" />
+  <Folder Name="/src/" />
+  <Folder Name="/src/BuildingBlocks/">
+    <Project Path="src/BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj" Id="b5ac1e8e-1988-45e0-8b36-977761164b2f" />
+  </Folder>
+  <Folder Name="/src/Services/" />
+</Solution>
