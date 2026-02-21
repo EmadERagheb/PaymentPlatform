@@ -15,7 +15,7 @@ public sealed class Payment : AggregateRoot<PaymentId>
             throw new ValidationException([new ValidationError(nameof(totalAmount), "Total amount must be greater than zero.")]);
         return new Payment
         {
-            Id = PaymentId.Of(new Guid()),
+            Id = PaymentId.Of(Guid.NewGuid()),
             TransactionId = transactionId,
             TotalAmount = totalAmount,
             State = PaymentState.Pending

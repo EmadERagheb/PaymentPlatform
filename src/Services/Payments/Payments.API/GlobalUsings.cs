@@ -1,5 +1,17 @@
-﻿global using BuildingBlocks.Options;
+﻿global using BuildingBlocks.Exceptions;
+global using BuildingBlocks.Options;
+global using MediatR;
 global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.Extensions.Options;
 global using Payments.API;
+global using Payments.API.Extensions;
+global using Payments.API.Middlewares;
 global using Payments.Application;
+global using Payments.Application.Payments.ConfirmPayment;
+global using Payments.Application.Payments.FailPayment;
+global using Payments.Application.Payments.StartPayment;
 global using Payments.Infrastructure;
+global using Serilog;
+global using Serilog.Events;
+global using System.Diagnostics;
+

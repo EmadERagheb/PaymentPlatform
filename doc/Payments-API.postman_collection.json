@@ -1,0 +1,77 @@
+{
+	"info": {
+		"_postman_id": "payments-api-collection",
+		"name": "Payments API",
+		"description": "API collection for the Payments controller: start payment (idempotent by transaction id), confirm, and fail.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "payment_url",
+			"value": "http://localhost:5001"
+		},
+		{
+			"key": "paymentId",
+			"value": ""
+		}
+	],
+	"item": [
+		{
+			"name": "Start Payment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"transactionId\": \"{{transactionId}}\",\n  \"amount\": 159.48,\n  \"currency\": \"USD\"\n}"
+				},
+				"url": {
+					"raw": "{{payment_url}}/api/payments/start",
+					"host": ["{{payment_url}}"],
+					"path": ["api", "payments", "start"]
+				},
+				"description": "Start a payment for a transaction (idempotent by transaction id). Returns created payment (e.g. id) on success. Set transactionId from your Transactions service."
+			}
+		},
+		{
+			"name": "Confirm Payment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{payment_url}}/api/payments/{{paymentId}}/confirm",
+					"host": ["{{payment_url}}"],
+					"path": ["api", "payments", "{{paymentId}}", "confirm"]
+				},
+				"description": "Confirm a payment. Publishes PaymentConfirmed. Returns 204 No Content on success. Use payment id from Start Payment response."
+			}
+		},
+		{
+			"name": "Fail Payment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"paymentId\": \"{{paymentId}}\"\n}"
+				},
+				"url": {
+					"raw": "{{payment_url}}/api/payments/{{paymentId}}/fail",
+					"host": ["{{payment_url}}"],
+					"path": ["api", "payments", "{{paymentId}}", "fail"]
+				},
+				"description": "Fail a payment. Publishes PaymentFailed. Returns 204 No Content on success."
+			}
+		}
+	]
+}

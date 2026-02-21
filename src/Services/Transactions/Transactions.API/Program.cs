@@ -30,14 +30,9 @@ app.UseCorrelationIdMiddleware();
 app.UsePerformanceLoggingMiddleware();
 app.UseAdvancedRequestLogging();
 app.UseHttpsRedirection();
-
 app.UseCustomExceptionHandler();
 app.UseStatusCodePagesWithReExecute("/errors/{0}");
 app.UseHttpsRedirection();
-
-
-app.UseStatusCodePagesWithReExecute("/errors/{0}");
-
 app.MapControllers();
 
 app.Run();
