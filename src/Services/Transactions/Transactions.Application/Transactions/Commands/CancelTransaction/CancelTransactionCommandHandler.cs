@@ -5,7 +5,7 @@ public sealed class CancelTransactionCommandHandler(ITransactionDbContext transa
     public async Task<Result> Handle(CancelTransactionCommand command, CancellationToken cancellationToken)
     {
         logger.LogInformation("Fetching transaction with ID {TransactionId} ", command.TransactionId);
-        var transaction = await transactionDbContext.Transactions.Include(t => t.Items).FirstOrDefaultAsync(t => t.Id.Value == command.TransactionId, cancellationToken);
+        var transaction = await transactionDbContext.Transactions.FirstOrDefaultAsync(t => t.Id == TransactionId.Of(command.TransactionId), cancellationToken);
         if (transaction is null)
         {
             logger.LogError("Transaction with ID {TransactionId} not found.", command.TransactionId);

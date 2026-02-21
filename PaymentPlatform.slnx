@@ -5,6 +5,12 @@
     <Project Path="src/BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj" Id="b5ac1e8e-1988-45e0-8b36-977761164b2f" />
   </Folder>
   <Folder Name="/src/Services/" />
+  <Folder Name="/src/Services/Payments/">
+    <Project Path="src/Services/Payments/Payments.API/Payments.API.csproj" Id="92083475-5eff-4f53-891d-70d73fa76d5d" />
+    <Project Path="src/Services/Payments/Payments.Application/Payments.Application.csproj" Id="97995f36-0fb9-4c39-a6dc-acdeba60f236" />
+    <Project Path="src/Services/Payments/Payments.Domain/Payments.Domain.csproj" Id="60d3c793-b1d1-424b-822d-14708343dc79" />
+    <Project Path="src/Services/Payments/Payments.Infrastructure/Payments.Infrastructure.csproj" Id="3fd5a32a-4475-45ef-a6db-631a9d754972" />
+  </Folder>
   <Folder Name="/src/Services/Transactions/">
     <Project Path="src/Services/Transactions/Transaction.Domain/Transaction.Domain.csproj" />
     <Project Path="src/Services/Transactions/Transactions.API/Transactions.API.csproj" Id="300273c9-d7b1-417c-8eb6-9ea734d07f03" />

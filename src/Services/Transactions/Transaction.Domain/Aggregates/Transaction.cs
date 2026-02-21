@@ -31,8 +31,11 @@ public class Transaction : AggregateRoot<TransactionId>
     }
     public void Cancel()
     {
-        if (State != TransactionState.Submitted)
-            throw new ValidationException([new ValidationError(nameof(State), "Only submitted transactions can be cancelled.")]);
+      
+        if (State == TransactionState.Completed)
+            throw new ValidationException([new ValidationError(nameof(State), "A completed transaction cannot be cancelled.")]);
+        if (State == TransactionState.Cancelled)
+            return; // Idempotent
         State = TransactionState.Cancelled;
         AddDomainEvent(new TransactionCancelledEvent(this));
     }

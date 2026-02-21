@@ -1,4 +1,4 @@
-﻿namespace Transactions.Domain.ValueObjects;
+﻿namespace BuildingBlocks.ValueObjects;
 
 public class Money
 {

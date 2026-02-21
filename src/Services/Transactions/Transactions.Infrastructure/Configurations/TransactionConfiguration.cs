@@ -1,4 +1,3 @@
-using Transactions.Domain.ValueObjects;
 namespace Transactions.Infrastructure.Configurations;
 
 public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
