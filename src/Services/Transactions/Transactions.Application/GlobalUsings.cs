@@ -1,0 +1,11 @@
+﻿global using BuildingBlocks.Behaviors;
+global using BuildingBlocks.CQRS;
+global using BuildingBlocks.Exceptions;
+global using BuildingBlocks.Results;
+global using FluentValidation;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Logging;
+global using Transactions.Application.Data;
+global using Transactions.Domain.Aggregates;
+global using Transactions.Domain.ValueObjects;

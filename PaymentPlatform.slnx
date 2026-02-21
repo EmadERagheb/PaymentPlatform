@@ -5,4 +5,13 @@
     <Project Path="src/BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj" Id="b5ac1e8e-1988-45e0-8b36-977761164b2f" />
   </Folder>
   <Folder Name="/src/Services/" />
+  <Folder Name="/src/Services/Transactions/">
+    <Project Path="src/Services/Transactions/Transaction.Domain/Transaction.Domain.csproj" />
+    <Project Path="src/Services/Transactions/Transactions.API/Transactions.API.csproj" Id="300273c9-d7b1-417c-8eb6-9ea734d07f03" />
+    <Project Path="src/Services/Transactions/Transactions.Application/Transactions.Application.csproj" Id="3685467c-9858-42c9-bd6b-713d1523d300" />
+    <Project Path="src/Services/Transactions/Transactions.Infrastructure/Transactions.Infrastructure.csproj" Id="ca4d11a1-6b95-4f66-88fd-1c46de0cab5c" />
+  </Folder>
+  <Project Path="docker-compose.dcproj">
+    <Build />
+  </Project>
 </Solution>

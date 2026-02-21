@@ -1,0 +1,11 @@
+﻿global using BuildingBlocks.Interceptors;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.Diagnostics;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Hosting;
+global using Microsoft.Extensions.Logging;
+global using Transactions.Application.Data;
+global using Transactions.Domain.Aggregates;
+global using Transactions.Infrastructure.Persistence;

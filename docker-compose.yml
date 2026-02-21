@@ -1,0 +1,6 @@
+services:
+  transactionsdb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+
+volumes:
+  mssql_transactions:
