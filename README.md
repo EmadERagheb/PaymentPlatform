@@ -57,6 +57,4 @@ MoneyFellows hiring quest: two .NET microservices (**Transactions**, **Payments*
 - Outbox pattern (Transactions), CorrelationId (HTTP → events → logs)  
 - Serilog, Grafana Loki (optional), health checks, OpenAPI  
 
-## Video submission
 
-See **[VIDEO_SCRIPT.md](VIDEO_SCRIPT.md)** for the 10-minute video structure (intro + one backend challenge + live demo + event reliability).
