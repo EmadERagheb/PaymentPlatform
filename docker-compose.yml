@@ -22,6 +22,19 @@ services:
   messagebroker:
     image: rabbitmq:3-management-alpine
 
+  payments.api:
+    image: ${DOCKER_REGISTRY-}paymentsapi
+    build:
+      context: .
+      dockerfile: src/Services/Payments/Payments.API/Dockerfile
+
+  transactions.api:
+    image: ${DOCKER_REGISTRY-}transactionsapi
+    build:
+      context: .
+      dockerfile: src/Services/Transactions/Transactions.API/Dockerfile
+
 volumes:
   mssql_transactions:
   mssql_payments:
+

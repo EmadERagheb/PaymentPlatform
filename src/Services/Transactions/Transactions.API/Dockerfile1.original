@@ -16,8 +16,6 @@ COPY ["src/Services/Transactions/Transactions.API/Transactions.API.csproj", "src
 COPY ["src/Services/Transactions/Transactions.Infrastructure/Transactions.Infrastructure.csproj", "src/Services/Transactions/Transactions.Infrastructure/"]
 COPY ["src/Services/Transactions/Transaction.Domain/Transaction.Domain.csproj", "src/Services/Transactions/Transaction.Domain/"]
 COPY ["src/BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj", "src/BuildingBlocks/BuildingBlocks/"]
-COPY ["src/Services/Transactions/Transactions.Application/Transactions.Application.csproj", "src/Services/Transactions/Transactions.Application/"]
-COPY ["src/BuildingBlocks/BuildingBlocks.Messaging/BuildingBlocks.Messaging.csproj", "src/BuildingBlocks/BuildingBlocks.Messaging/"]
 RUN dotnet restore "./src/Services/Transactions/Transactions.API/Transactions.API.csproj"
 COPY . .
 WORKDIR "/src/src/Services/Transactions/Transactions.API"
