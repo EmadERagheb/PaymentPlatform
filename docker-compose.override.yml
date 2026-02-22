@@ -1,5 +1,6 @@
 services:
   transactionsdb:
+    container_name: transactionsdb
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=Password123
@@ -10,12 +11,13 @@ services:
      - mssql_transactions:/var/opt/mssql
 
   paymentsdb:
+    container_name: paymentsdb
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=Password123
     restart: always
     ports:
-      - "1435:1433"
+      - "1434:1433"
     volumes:
       - mssql_payments:/var/opt/mssql
 
@@ -35,7 +37,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_Kestrel__Certificates__Default__Password=YourSecurePassword123!
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
-      - ConnectionStrings__DefaultConnection=Server=transactionsdb;User Id=sa;Password=Password123;Encrypt=False;TrustServerCertificate=True
+      - ConnectionStrings__DefaultConnection=Server=transactionsdb;Database=TransactionsDb;User Id=sa;Password=Password123;Encrypt=False;TrustServerCertificate=True
       - MessageBroker__Host=amqp://messagebroker:5672
       - MessageBroker__Username=guest
       - MessageBroker__Password=guest
@@ -56,7 +58,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_Kestrel__Certificates__Default__Password=YourSecurePassword123!
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
-      - ConnectionStrings__DefaultConnection=Server=paymentsdb;User Id=sa;Password=Password123;Encrypt=False;TrustServerCertificate=True
+      - ConnectionStrings__DefaultConnection=Server=paymentsdb;Database=PaymentDB;User Id=sa;Password=Password123;Encrypt=False;TrustServerCertificate=True
       - MessageBroker__Host=amqp://messagebroker:5672
       - MessageBroker__Username=guest
       - MessageBroker__Password=guest

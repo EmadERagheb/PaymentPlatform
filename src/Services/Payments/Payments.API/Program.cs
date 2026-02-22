@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using Payments.Infrastructure.Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 //builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
 //          .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
@@ -12,7 +15,12 @@ builder.Host.ConfigureSerilog();
 builder.Services.AddOpenApi();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
-app.UseDatabaseMigration();
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<PaymentDbContext>();
+     dbContext.Database.Migrate();
+}
+//app.UseDatabaseMigration();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();

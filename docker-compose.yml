@@ -1,23 +1,9 @@
 services:
   transactionsdb:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    environment:
-      ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: "Password123"
-    ports:
-      - "1433:1433"
-    volumes:
-      - mssql_transactions:/var/opt/mssql
 
   paymentsdb:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    environment:
-      ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: "Password123"
-    ports:
-      - "1434:1433"
-    volumes:
-      - mssql_payments:/var/opt/mssql
 
   messagebroker:
     image: rabbitmq:3-management-alpine
@@ -34,6 +20,8 @@ services:
       context: .
       dockerfile: src/Services/Transactions/Transactions.API/Dockerfile
 
+# Named volumes persist DB data across 'docker-compose down'.
+# Data is only removed if you run 'docker-compose down -v' (or --volumes).
 volumes:
   mssql_transactions:
   mssql_payments:
