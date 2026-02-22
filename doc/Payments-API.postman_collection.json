@@ -1,77 +1,163 @@
 {
-	"info": {
-		"_postman_id": "payments-api-collection",
-		"name": "Payments API",
-		"description": "API collection for the Payments controller: start payment (idempotent by transaction id), confirm, and fail.",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"variable": [
-		{
-			"key": "payment_url",
-			"value": "http://localhost:5001"
-		},
-		{
-			"key": "paymentId",
-			"value": ""
-		}
-	],
-	"item": [
-		{
-			"name": "Start Payment",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"transactionId\": \"{{transactionId}}\",\n  \"amount\": 159.48,\n  \"currency\": \"USD\"\n}"
-				},
-				"url": {
-					"raw": "{{payment_url}}/api/payments/start",
-					"host": ["{{payment_url}}"],
-					"path": ["api", "payments", "start"]
-				},
-				"description": "Start a payment for a transaction (idempotent by transaction id). Returns created payment (e.g. id) on success. Set transactionId from your Transactions service."
-			}
-		},
-		{
-			"name": "Confirm Payment",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "{{payment_url}}/api/payments/{{paymentId}}/confirm",
-					"host": ["{{payment_url}}"],
-					"path": ["api", "payments", "{{paymentId}}", "confirm"]
-				},
-				"description": "Confirm a payment. Publishes PaymentConfirmed. Returns 204 No Content on success. Use payment id from Start Payment response."
-			}
-		},
-		{
-			"name": "Fail Payment",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"paymentId\": \"{{paymentId}}\"\n}"
-				},
-				"url": {
-					"raw": "{{payment_url}}/api/payments/{{paymentId}}/fail",
-					"host": ["{{payment_url}}"],
-					"path": ["api", "payments", "{{paymentId}}", "fail"]
-				},
-				"description": "Fail a payment. Publishes PaymentFailed. Returns 204 No Content on success."
-			}
-		}
-	]
+  "info": {
+    "_postman_id": "aaa7c7c1-8b88-4006-b501-109c40f6d216",
+    "name": "Payments API",
+    "description": "API collection for the Payments controller: start payment (idempotent by transaction id), confirm, and fail.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "31135429",
+    "_collection_link": "https://go.postman.co/collection/31135429-aaa7c7c1-8b88-4006-b501-109c40f6d216?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Start Payment",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "if (pm.response.code == 201) {\r",
+              "    var jsonData = pm.response.json();\r",
+              "\r",
+              "    pm.test(\"Response has paymentId\", function () {\r",
+              "        pm.expect(jsonData).to.have.property('paymentId');\r",
+              "    });\r",
+              "\r",
+              "    pm.environment.set(\"currentPaymentId\", jsonData.paymentId);\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"transactionId\": \"{{currenttransactionId}}\",\n  \"amount\": 159.48,\n  \"currency\": \"USD\"\n}"
+        },
+        "url": {
+          "raw": "{{payment_url}}/api/payments/start",
+          "host": [
+            "{{payment_url}}"
+          ],
+          "path": [
+            "api",
+            "payments",
+            "start"
+          ]
+        },
+        "description": "Start a payment for a transaction (idempotent by transaction id). Returns created payment (e.g. id) on success. Set transactionId from your Transactions service."
+      },
+      "response": []
+    },
+    {
+      "name": "Confirm Payment",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{payment_url}}/api/payments/{{currentPaymentId}}/confirm",
+          "host": [
+            "{{payment_url}}"
+          ],
+          "path": [
+            "api",
+            "payments",
+            "{{currentPaymentId}}",
+            "confirm"
+          ]
+        },
+        "description": "Confirm a payment. Publishes PaymentConfirmed. Returns 204 No Content on success. Use payment id from Start Payment response."
+      },
+      "response": []
+    },
+    {
+      "name": "Fail Payment",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"paymentId\": \"{{paymentId}}\",\n  \"failureReson\":\"Insufficient money in the account\"\n}"
+        },
+        "url": {
+          "raw": "{{payment_url}}/api/payments/{{paymentId}}/fail",
+          "host": [
+            "{{payment_url}}"
+          ],
+          "path": [
+            "api",
+            "payments",
+            "{{paymentId}}",
+            "fail"
+          ]
+        },
+        "description": "Fail a payment. Publishes PaymentFailed. Returns 204 No Content on success."
+      },
+      "response": []
+    },
+    {
+      "name": "Health",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"paymentId\": \"{{paymentId}}\",\n  \"failureReson\":\"Insufficient money in the account\"\n}"
+        },
+        "url": {
+          "raw": "{{payment_url}}/health",
+          "host": [
+            "{{payment_url}}"
+          ],
+          "path": [
+            "health"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "payment_url",
+      "value": "http://localhost:5001"
+    },
+    {
+      "key": "paymentId",
+      "value": ""
+    }
+  ]
 }

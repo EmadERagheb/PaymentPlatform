@@ -1,90 +1,188 @@
 {
-	"info": {
-		"_postman_id": "transactions-api-collection",
-		"name": "Transactions API",
-		"description": "API collection for the Transactions controller: create draft transactions, add items, submit, and cancel.",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"variable": [
-		{
-			"key": "transaction_url",
-			"value": "http://localhost:5000"
-		},
-		{
-			"key": "transactionId",
-			"value": ""
-		}
-	],
-	"item": [
-		{
-			"name": "Create Transaction",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"currency\": \"USD\"\n}"
-				},
-				"url": {
-					"raw": "{{transaction_url}}/api/transactions",
-					"host": ["{{transaction_url}}"],
-					"path": ["api", "transactions"]
-				},
-				"description": "Create a new transaction (Draft). Returns created transaction (e.g. id) on success."
-			}
-		},
-		{
-			"name": "Add Transaction Items",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"transactionId\": \"{{transactionId}}\",\n  \"items\": [\n    {\n      \"description\": \"Product A\",\n      \"quantity\": 2,\n      \"unitPrice\": 29.99\n    },\n    {\n      \"description\": \"Product B\",\n      \"quantity\": 1,\n      \"unitPrice\": 99.50\n    }\n  ]\n}"
-				},
-				"url": {
-					"raw": "{{transaction_url}}/api/transactions/{{transactionId}}/items",
-					"host": ["{{transaction_url}}"],
-					"path": ["api", "transactions", "{{transactionId}}", "items"]
-				},
-				"description": "Add items to a draft transaction. Use the transaction id from Create Transaction (set {{transactionId}} or paste in path and body)."
-			}
-		},
-		{
-			"name": "Submit Transaction",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "{{transaction_url}}/api/transactions/{{transactionId}}/submit",
-					"host": ["{{transaction_url}}"],
-					"path": ["api", "transactions", "{{transactionId}}", "submit"]
-				},
-				"description": "Submit transaction. Publishes TransactionSubmitted event. Returns 204 No Content on success."
-			}
-		},
-		{
-			"name": "Cancel Transaction",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "{{transaction_url}}/api/transactions/{{transactionId}}/cancel",
-					"host": ["{{transaction_url}}"],
-					"path": ["api", "transactions", "{{transactionId}}", "cancel"]
-				},
-				"description": "Cancel a draft or submitted transaction. Returns 204 No Content on success."
-			}
-		}
-	]
+  "info": {
+    "_postman_id": "c13aeb4a-e090-4967-9e19-079e0264ebfc",
+    "name": "Transactions API",
+    "description": "API collection for the Transactions controller: create draft transactions, add items, submit, and cancel.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "31135429",
+    "_collection_link": "https://go.postman.co/collection/31135429-c13aeb4a-e090-4967-9e19-079e0264ebfc?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Create Transaction",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "if (pm.response.code == 201) {\r",
+              "    var jsonData = pm.response.json();\r",
+              "\r",
+              "    pm.test(\"Response has transactionId\", function () {\r",
+              "        pm.expect(jsonData).to.have.property('transactionId');\r",
+              "    });\r",
+              "\r",
+              "    pm.environment.set(\"currenttransactionId\", jsonData.transactionId);\r",
+              "    pm.environment.set(\"currentcurrency\", jsonData.currency);\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"currency\": \"USD\"\n}"
+        },
+        "url": {
+          "raw": "{{transaction_url}}/api/transactions",
+          "host": [
+            "{{transaction_url}}"
+          ],
+          "path": [
+            "api",
+            "transactions"
+          ]
+        },
+        "description": "Create a new transaction (Draft). Returns created transaction (e.g. id) on success."
+      },
+      "response": []
+    },
+    {
+      "name": "Add Transaction Items",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"transactionId\": \"{{currenttransactionId}}\",\n  \"items\": [\n    {\n      \"description\": \"Product A\",\n      \"quantity\": 2,\n      \"unitPrice\": 29.99\n    },\n    {\n      \"description\": \"Product B\",\n      \"quantity\": 1,\n      \"unitPrice\": 99.50\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{transaction_url}}/api/transactions/{{currenttransactionId}}/items",
+          "host": [
+            "{{transaction_url}}"
+          ],
+          "path": [
+            "api",
+            "transactions",
+            "{{currenttransactionId}}",
+            "items"
+          ]
+        },
+        "description": "Add items to a draft transaction. Use the transaction id from Create Transaction (set {{transactionId}} or paste in path and body)."
+      },
+      "response": []
+    },
+    {
+      "name": "Submit Transaction",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{transaction_url}}/api/transactions/{{currenttransactionId}}/submit",
+          "host": [
+            "{{transaction_url}}"
+          ],
+          "path": [
+            "api",
+            "transactions",
+            "{{currenttransactionId}}",
+            "submit"
+          ]
+        },
+        "description": "Submit transaction. Publishes TransactionSubmitted event. Returns 204 No Content on success."
+      },
+      "response": []
+    },
+    {
+      "name": "Cancel Transaction",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{transaction_url}}/api/transactions/{{currenttransactionId}}/cancel",
+          "host": [
+            "{{transaction_url}}"
+          ],
+          "path": [
+            "api",
+            "transactions",
+            "{{currenttransactionId}}",
+            "cancel"
+          ]
+        },
+        "description": "Cancel a draft or submitted transaction. Returns 204 No Content on success."
+      },
+      "response": []
+    },
+    {
+      "name": "Health",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"paymentId\": \"{{paymentId}}\",\n  \"failureReson\":\"Insufficient money in the account\"\n}"
+        },
+        "url": {
+          "raw": "{{transaction_url}}/health",
+          "host": [
+            "{{transaction_url}}"
+          ],
+          "path": [
+            "health"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "transaction_url",
+      "value": "http://localhost:5000"
+    },
+    {
+      "key": "transactionId",
+      "value": ""
+    }
+  ]
 }

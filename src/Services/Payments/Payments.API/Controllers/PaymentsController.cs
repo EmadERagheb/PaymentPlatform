@@ -14,6 +14,8 @@ public class PaymentsController(IMediator mediator) : ControllerBase
         return CreatedAtAction(nameof(Start), result.Value);
     }
     /// <summary>Confirm a payment. Publishes PaymentConfirmed.</summary>
+    /// this should be callback from the payment gateway
+    /// this is simulation of payment gateway call back with success status should be callback from the payment gateway
     [HttpPost("{id:guid}/confirm")]
     public async Task<IActionResult> Confirm(Guid id, CancellationToken cancellationToken)
     {
@@ -23,6 +25,7 @@ public class PaymentsController(IMediator mediator) : ControllerBase
         return NoContent();
     }
     /// <summary>Fail a payment. Publishes PaymentFailed.</summary>
+    /// this is simulation of payment gateway call back with failure status should be callback from the payment gateway
     [HttpPost("{id:guid}/fail")]
     public async Task<IActionResult> Fail(Guid id, [FromBody] FailPaymentCommand request, CancellationToken cancellationToken)
     {
