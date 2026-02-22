@@ -1,12 +1,17 @@
 ﻿global using BuildingBlocks.Behaviors;
 global using BuildingBlocks.CQRS;
 global using BuildingBlocks.Exceptions;
+global using BuildingBlocks.Messaging.Events;
 global using BuildingBlocks.Results;
 global using BuildingBlocks.ValueObjects;
 global using FluentValidation;
+global using MassTransit;
+global using MassTransit.Transports;
+global using MediatR;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Logging;
 global using Payments.Application.Data;
 global using Payments.Domain.Aggregates;
+global using Payments.Domain.Events;
 global using Payments.Domain.ValueObjects;

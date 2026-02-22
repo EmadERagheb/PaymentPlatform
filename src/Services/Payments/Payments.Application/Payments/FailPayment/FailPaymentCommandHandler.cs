@@ -12,7 +12,7 @@ public sealed class FailPaymentCommandHandler(IPaymentDbContext paymentDbContext
             logger.LogWarning("Payment with ID {PaymentId} not found.", command.PaymentId);
             return Result.Failure(new Error("PaymentNotFound", "Payment not found."));
         }
-        payment.Fail(payment.FailureReason ?? "Payment failed due to an unknown reason.");
+        payment.Fail(command.FailureReson ?? "Payment failed due to an unknown reason.");
         paymentDbContext.Payments.Update(payment);
         logger.LogInformation("Payment with ID {PaymentId} failed successfully.", command.PaymentId);
         await paymentDbContext.SaveChangesAsync(cancellationToken);

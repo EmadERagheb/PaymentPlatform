@@ -1,5 +1,6 @@
-﻿global using BuildingBlocks.Interceptors;
+﻿global using BuildingBlocks.Abstractions;
 global using BuildingBlocks.ValueObjects;
+global using MediatR;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Diagnostics;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -7,6 +8,10 @@ global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Hosting;
 global using Microsoft.Extensions.Logging;
+global using Microsoft.Extensions.Options;
 global using Payments.Domain.Aggregates;
 global using Payments.Domain.ValueObjects;
+global using Payments.Infrastructure.Interceptors;
+global using Payments.Infrastructure.Outbox;
 global using Payments.Infrastructure.Persistence;
+global using Quartz;

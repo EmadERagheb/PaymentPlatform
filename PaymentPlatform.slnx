@@ -2,6 +2,7 @@
   <Folder Name="/doc/" />
   <Folder Name="/src/" />
   <Folder Name="/src/BuildingBlocks/">
+    <Project Path="src/BuildingBlocks/BuildingBlocks.Messaging/BuildingBlocks.Messaging.csproj" Id="e916af38-85e9-479d-b847-5a59baf47467" />
     <Project Path="src/BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj" Id="b5ac1e8e-1988-45e0-8b36-977761164b2f" />
   </Folder>
   <Folder Name="/src/Services/" />

@@ -11,7 +11,7 @@ global using Payments.Application.Payments.ConfirmPayment;
 global using Payments.Application.Payments.FailPayment;
 global using Payments.Application.Payments.StartPayment;
 global using Payments.Infrastructure;
+global using Payments.Infrastructure.Outbox;
 global using Serilog;
 global using Serilog.Events;
 global using System.Diagnostics;
-

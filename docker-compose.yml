@@ -19,6 +19,9 @@ services:
     volumes:
       - mssql_payments:/var/opt/mssql
 
+  messagebroker:
+    image: rabbitmq:3-management-alpine
+
 volumes:
   mssql_transactions:
   mssql_payments:

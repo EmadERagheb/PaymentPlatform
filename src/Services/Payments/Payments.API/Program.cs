@@ -5,7 +5,7 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnC
           .AddEnvironmentVariables();
 // Add services to the container.
 builder.Services.AddInfrastructureServices(builder.Configuration, builder.Environment)
-                 .AddApplicationServices()
+                 .AddApplicationServices(builder.Configuration)
                  .AddPresentation(builder.Configuration);
 builder.Services.AddConfigurations(builder.Configuration);
 builder.Host.ConfigureSerilog();

@@ -1,8 +1,11 @@
-﻿namespace Transactions.Domain.ValueObjects;
+using Newtonsoft.Json;
+
+namespace Transactions.Domain.ValueObjects;
 
 public sealed record TransactionItemId
 {
     public Guid Value { get; }
+    [JsonConstructor]
     private TransactionItemId(Guid value)
     {
         Value = value;

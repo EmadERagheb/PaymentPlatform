@@ -13,7 +13,8 @@ public class AddTransactionItemsCommandHandler(ITransactionDbContext transaction
         }
         foreach (var item in command.Items)
             transaction.AddItem(item.Description, item.Quantity, item.UnitPrice);
-       await transactionDbContext.TransactionItems.AddRangeAsync(transaction.Items);
+        await transactionDbContext.TransactionItems.AddRangeAsync(transaction.Items);
+         transactionDbContext.Transactions.Update(transaction);
         logger.LogInformation("Adding {ItemCount} items to transaction {TransactionId}.", command.Items.Count(), command.TransactionId);
         await transactionDbContext.SaveChangesAsync();
         return Result.Success();

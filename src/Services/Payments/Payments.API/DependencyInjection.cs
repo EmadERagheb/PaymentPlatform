@@ -1,4 +1,7 @@
-﻿namespace Payments.API;
+﻿
+
+namespace Payments.API;
+
 public static class DependencyInjection
 {
     public static IServiceCollection AddPresentation(this IServiceCollection services, IConfiguration configuration)
@@ -44,6 +47,7 @@ public static class DependencyInjection
                 options.Performance.SlowOperationThresholdMs = 1000;
         });
         services.Configure<LokiOptions>(configuration.GetSection(LokiOptions.SectionName));
+        services.Configure<OutboxOptions>(configuration.GetSection(OutboxOptions.SectionName));
         return services;
     }
 }

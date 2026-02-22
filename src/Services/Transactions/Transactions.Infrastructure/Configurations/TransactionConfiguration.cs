@@ -11,7 +11,7 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
         {
             cb.Property(x => x.Amount).HasColumnName(nameof(Money.Amount)).HasPrecision(8, 4);
             cb.Property(x => x.Currency).HasColumnName(nameof(Money.Currency))
-                .HasConversion(c => c.Code, code => Currency.FromCode(code))
+                .HasConversion(c => c.Code, code => Currency.Of(code))
                 .HasMaxLength(3)
                 .IsRequired();
         });

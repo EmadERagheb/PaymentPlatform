@@ -1,9 +1,8 @@
 ﻿using BuildingBlocks.Abstractions;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace BuildingBlocks.Interceptors;
+
+namespace Transactions.Infrastructure.Interceptors;
 
 public class AuditableEntityInterceptor : SaveChangesInterceptor
 {

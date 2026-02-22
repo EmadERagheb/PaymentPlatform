@@ -1,4 +1,4 @@
-﻿namespace BuildingBlocks.Abstractions;
+namespace BuildingBlocks.Abstractions;
 
 public interface IAggregateRoot:IEntity
 {
@@ -6,4 +6,4 @@ public interface IAggregateRoot:IEntity
     void AddDomainEvent(IDomainEvent domainEvent);
     IDomainEvent[] ClearDomainEvents();
 }
-public interface IAggregateRoot<T> : IEntity<T> { }
+public interface IAggregateRoot<T> : IEntity<T>, IAggregateRoot { }

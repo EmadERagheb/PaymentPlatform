@@ -1,4 +1,6 @@
-﻿namespace BuildingBlocks.Abstractions;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BuildingBlocks.Abstractions;
 
 public abstract class Entity<T> : IEntity<T>
 {
@@ -7,4 +9,6 @@ public abstract class Entity<T> : IEntity<T>
     public string? CreatedBy { get; set; }
     public DateTime LastModified { get; set; }
     public string? LastModifiedBy { get; set; }
+    [Timestamp]
+    public byte[] Version { get; set; } = [];
 }

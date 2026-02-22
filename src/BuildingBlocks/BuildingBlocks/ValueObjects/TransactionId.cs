@@ -1,8 +1,11 @@
-﻿namespace BuildingBlocks.ValueObjects;
+using Newtonsoft.Json;
+
+namespace BuildingBlocks.ValueObjects;
 
 public sealed record TransactionId
 {
     public Guid Value { get; }
+    [JsonConstructor]
     private TransactionId(Guid value)
     {
         Value = value;

@@ -25,9 +25,8 @@ public sealed class Payment : AggregateRoot<PaymentId>
     {
         if (State != PaymentState.Pending)
             throw new ValidationException([new ValidationError(nameof(State), "Only a pending payment can be confirmed.")]);
-
         State = PaymentState.Confirmed;
-        AddDomainEvent(new PaymentConfirmedEvent(this));
+       AddDomainEvent(new PaymentConfirmedDomainEvent(Id.Value, TransactionId.Value,TotalAmount.Currency.Code, TotalAmount.Amount));
     }
 
     public void Fail(string reason)
@@ -38,7 +37,7 @@ public sealed class Payment : AggregateRoot<PaymentId>
 
         State = PaymentState.Failed;
         FailureReason = reason ?? string.Empty;
-        AddDomainEvent(new PaymentFailedEvent(this));
+        AddDomainEvent(new PaymentFailedDomainEvent(Id.Value, TransactionId.Value, TotalAmount.Currency.Code, TotalAmount.Amount, FailureReason));
     }
 
 }

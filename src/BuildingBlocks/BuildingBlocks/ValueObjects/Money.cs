@@ -1,10 +1,13 @@
-﻿namespace BuildingBlocks.ValueObjects;
+using Newtonsoft.Json;
+
+namespace BuildingBlocks.ValueObjects;
 
 public class Money
 {
     public decimal Amount { get; }
     public Currency Currency { get; }
 
+    [JsonConstructor]
     public Money(decimal amount, Currency currency)
     {
         if (amount < 0)

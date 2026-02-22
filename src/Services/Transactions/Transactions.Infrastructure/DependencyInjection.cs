@@ -5,10 +5,9 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
     {
         services.Persistence(configuration, environment);
+        services.AddBackgroundServices();
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
-        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
-
-
+        services.AddScoped<ISaveChangesInterceptor, AddOutboxMessagesInterceptor>();
         services.AddScoped<ITransactionDbContext, TransactionsDbContext>();
         return services;
     }
@@ -26,5 +25,11 @@ public static class DependencyInjection
             options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
         });
         return services;
+    }
+    private static void AddBackgroundServices(this IServiceCollection services)
+    {
+        services.AddQuartz();
+        services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
+        services.ConfigureOptions<ProcessOutboxMessagesJobSetup>();
     }
 }

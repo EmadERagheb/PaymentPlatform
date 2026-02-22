@@ -12,6 +12,7 @@ public class SubmitTransactionCommandHnadler(ITransactionDbContext transactionDb
             return Result.Failure(new Error("TransactionNotFound", "Transaction not found."));
         }
         transaction.Submit();
+        transactionDbContext.Transactions.Update(transaction);
         logger.LogInformation("Saving submitted transaction with ID {TransactionId}.", command.TransactionId);
         await transactionDbContext.SaveChangesAsync();
         return Result.Success();

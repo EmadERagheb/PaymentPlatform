@@ -1,5 +1,5 @@
-﻿global using BuildingBlocks.Interceptors;
-global using BuildingBlocks.ValueObjects;
+﻿global using BuildingBlocks.ValueObjects;
+global using MediatR;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Diagnostics;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -7,6 +7,10 @@ global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Hosting;
 global using Microsoft.Extensions.Logging;
+global using Newtonsoft.Json;
+global using Quartz;
 global using Transactions.Application.Data;
 global using Transactions.Domain.Aggregates;
+global using Transactions.Infrastructure.Interceptors;
+global using Transactions.Infrastructure.Outbox;
 global using Transactions.Infrastructure.Persistence;

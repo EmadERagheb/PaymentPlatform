@@ -1,4 +1,6 @@
-﻿namespace Transactions.Domain.Aggregates;
+using Transactions.Domain.Events;
+
+namespace Transactions.Domain.Aggregates;
 
 public class Transaction : AggregateRoot<TransactionId>
 {
@@ -7,6 +9,8 @@ public class Transaction : AggregateRoot<TransactionId>
     public Money TotalAmount { get; private set; }
     public IReadOnlyCollection<TransactionItem> Items => _items.AsReadOnly();
     private Transaction() { }
+
+
     public Transaction(Currency currency)
     {
         Id = TransactionId.Of(Guid.NewGuid());
@@ -15,11 +19,11 @@ public class Transaction : AggregateRoot<TransactionId>
     }
     public void AddItem(string description, int quantity, decimal unitPrice)
     {
-       var item = new TransactionItem(Id, description, quantity, unitPrice);
+        var item = new TransactionItem(Id, description, quantity, unitPrice);
         _items.Add(item);
         RecalculateTotal();
     }
-   
+
     public void Submit()
     {
         if (State != TransactionState.Draft)
@@ -27,35 +31,28 @@ public class Transaction : AggregateRoot<TransactionId>
         if (!Items.Any())
             throw new ValidationException([new ValidationError(nameof(Items), "Cannot submit a transaction with no items.")]);
         State = TransactionState.Submitted;
-        AddDomainEvent(new TransactionSubmittedEvent(this));
+        AddDomainEvent(new TransactionSubmitDomainEvent(Id.Value, TotalAmount.Currency.Code, TotalAmount.Amount));
     }
     public void Cancel()
     {
-      
+
         if (State == TransactionState.Completed)
             throw new ValidationException([new ValidationError(nameof(State), "A completed transaction cannot be cancelled.")]);
         if (State == TransactionState.Cancelled)
             return; // Idempotent
         State = TransactionState.Cancelled;
-        AddDomainEvent(new TransactionCancelledEvent(this));
+       
     }
     public void Complete()
     {
         if (State != TransactionState.Submitted)
             throw new ValidationException([new ValidationError(nameof(State), "Only submitted transactions can be completed.")]);
         State = TransactionState.Completed;
-        AddDomainEvent(new TransactionCompletedEvent(this));
+       
+    
     }
 
-    public void UpdateItem(TransactionItem item)
-    {
-        var existingItem = _items.FirstOrDefault(i => i.Id.Value == item.Id.Value);
-        if (existingItem == null)
-            throw new ValidationException([new ValidationError(nameof(item.Id), "Transaction item not found.")]);
-        _items.Remove(existingItem);
-        _items.Add(item);
-        RecalculateTotal();
-    }
+
     private void RecalculateTotal()
     {
         TotalAmount = new Money(_items.Sum(i => i.LineTotal), TotalAmount.Currency);

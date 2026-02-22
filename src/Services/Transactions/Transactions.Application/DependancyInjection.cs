@@ -1,10 +1,15 @@
 ﻿
+using BuildingBlocks.Messaging.MassTransit;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+
 namespace Transactions.Application;
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services,IConfiguration configuration)
     {
         var assembly = typeof(DependencyInjection).Assembly;
+        services.AddMessageBroker(configuration, assembly);
         services.AddValidatorsFromAssembly(assembly);
         services.AddMediatR(cfg =>
         {
@@ -14,4 +19,5 @@ public static class DependencyInjection
         });
         return services;
     }
+
 }

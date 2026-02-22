@@ -1,4 +1,7 @@
-﻿namespace Transactions.API;
+﻿using BuildingBlocks.Messaging.MassTransit;
+using Transactions.Infrastructure.Outbox;
+
+namespace Transactions.API;
 
 public static class DependencyInjection
 {
@@ -45,6 +48,8 @@ public static class DependencyInjection
                 options.Performance.SlowOperationThresholdMs = 1000;
         });
         services.Configure<LokiOptions>(configuration.GetSection(LokiOptions.SectionName));
+        services.Configure<OutboxOptions>(configuration.GetSection(OutboxOptions.SectionName));
+        services.Configure<MessageBrokerOptions>(configuration.GetSection(MessageBrokerOptions.SectionName));
         return services;
     }
 

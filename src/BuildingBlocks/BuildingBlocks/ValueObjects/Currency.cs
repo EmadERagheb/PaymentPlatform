@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace BuildingBlocks.ValueObjects;
 
 public sealed record Currency
@@ -7,6 +9,8 @@ public sealed record Currency
     public static readonly Currency Eur = new("EUR");
     public static readonly Currency EGP = new("EGP");
     public string Code { get; }
+
+    [JsonConstructor]
     private Currency(string code)
     {
         Code = code;
@@ -18,15 +22,7 @@ public sealed record Currency
         return new Currency(code.ToUpper());
     }
 
-    /// <summary>
-    /// Parses a currency code from persistence; returns None for null or empty.
-    /// </summary>
-    public static Currency FromCode(string? code)
-    {
-        if (string.IsNullOrWhiteSpace(code))
-            return None;
-        return new Currency(code.ToUpper());
-    }
+   
 }
 public static class AllowedCurrencies
 {

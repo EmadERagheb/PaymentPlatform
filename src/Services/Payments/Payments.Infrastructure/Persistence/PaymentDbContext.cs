@@ -6,6 +6,7 @@ namespace Payments.Infrastructure.Persistence;
 public class PaymentDbContext(DbContextOptions<PaymentDbContext> options) : DbContext(options), IPaymentDbContext
 {
     public DbSet<Payment> Payments { get; set; }
+    public DbSet<OutboxMessage> OutboxMessages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
