@@ -14,15 +14,14 @@ builder.Services.AddConfigurations(builder.Configuration);
 builder.Host.ConfigureSerilog();
 builder.Services.AddOpenApi();
 var app = builder.Build();
-// Configure the HTTP request pipeline.
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<PaymentDbContext>();
-     dbContext.Database.Migrate();
-}
-//app.UseDatabaseMigration();
+
 if (app.Environment.IsDevelopment())
 {
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<PaymentDbContext>();
+        dbContext.Database.Migrate();
+    }
     app.MapOpenApi();
     app.UseCors();
 }

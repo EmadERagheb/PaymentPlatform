@@ -7,11 +7,6 @@ public static class ApplicationBuilderExtensions
         app.UseMiddleware<CustomExceptionHandler>();
 
     }
-    public static IApplicationBuilder UseDatabaseMigration(this IApplicationBuilder app)
-    {
-        app.UseMiddleware<DatabaseMigrationMiddleware>();
-        return app;
-    }
     public static IApplicationBuilder UsePerformanceLoggingMiddleware(this IApplicationBuilder app)
     {
         app.UseMiddleware<PerformanceLoggingMiddleware>();
