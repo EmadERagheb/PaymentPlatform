@@ -1,7 +1,8 @@
+using BuildingBlocks.Messaging.Correlation;
 using Newtonsoft.Json;
 namespace Payments.Infrastructure.Interceptors;
 
-public class AddOutboxMessagesInterceptor : SaveChangesInterceptor
+public class AddOutboxMessagesInterceptor(ICorrelationIdAccessor correlationIdAccessor) : SaveChangesInterceptor
 {
     private static readonly JsonSerializerSettings JsonSerializerSettings = new()
     {
@@ -21,14 +22,14 @@ public class AddOutboxMessagesInterceptor : SaveChangesInterceptor
             .Entries<IAggregateRoot>()
             .Where(a => a.Entity.DomainEvents.Any())
             .Select(a => a.Entity);
-
+        var correlationId = correlationIdAccessor.GetCorrelationId();
         var outboxMessages = aggregates
             .SelectMany(a => a.DomainEvents)
             .Select(domainEvent => new OutboxMessage(
                 Guid.NewGuid(),
                 DateTime.UtcNow,
                 domainEvent.GetType().Name,
-                SerializeEventContent(domainEvent)))
+                SerializeEventContent(domainEvent), correlationId))
             .ToList();
         aggregates.ToList().ForEach(a => a.ClearDomainEvents());
 

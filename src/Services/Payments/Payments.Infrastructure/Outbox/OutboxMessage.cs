@@ -4,13 +4,17 @@ namespace Payments.Infrastructure.Outbox;
 
 public sealed class OutboxMessage
 {
-    public OutboxMessage(Guid id, DateTime occurredOnUtc, string type, string content)
+    public OutboxMessage(Guid id, DateTime occurredOnUtc, string type, string content, string? correlationId = null)
     {
         Id = id;
         OccurredOnUtc = occurredOnUtc;
         Content = content;
         Type = type;
+        CorrelationId = correlationId;
+
     }
+
+    public string? CorrelationId { get; set; }
 
     public Guid Id { get; set; }
 

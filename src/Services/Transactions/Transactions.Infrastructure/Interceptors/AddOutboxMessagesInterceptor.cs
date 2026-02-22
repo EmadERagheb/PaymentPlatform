@@ -1,10 +1,10 @@
 using BuildingBlocks.Abstractions;
-using Transactions.Domain.Events;
+using BuildingBlocks.Messaging.Correlation;
 
 
 namespace Transactions.Infrastructure.Interceptors;
 
-public class AddOutboxMessagesInterceptor : SaveChangesInterceptor
+public class AddOutboxMessagesInterceptor(ICorrelationIdAccessor correlationIdAccessor) : SaveChangesInterceptor
 {
     private static readonly JsonSerializerSettings JsonSerializerSettings = new()
     {
@@ -20,6 +20,7 @@ public class AddOutboxMessagesInterceptor : SaveChangesInterceptor
     {
         if (context == null)
             return;
+        var correlationId = correlationIdAccessor.GetCorrelationId();
         var aggregates = context.ChangeTracker
             .Entries<IAggregateRoot>()
             .Where(a => a.Entity.DomainEvents.Any())
@@ -31,7 +32,8 @@ public class AddOutboxMessagesInterceptor : SaveChangesInterceptor
                 Guid.NewGuid(),
                 DateTime.UtcNow,
                 domainEvent.GetType().Name,
-                SerializeEventContent(domainEvent)))
+                SerializeEventContent(domainEvent),
+                correlationId))
             .ToList();
         aggregates.ToList().ForEach(a => a.ClearDomainEvents());
 

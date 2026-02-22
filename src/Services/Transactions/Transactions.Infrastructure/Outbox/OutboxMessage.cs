@@ -1,15 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 namespace Transactions.Infrastructure.Outbox;
 
 
 public sealed class OutboxMessage
 {
-    public OutboxMessage(Guid id, DateTime occurredOnUtc, string type, string content)
+    public OutboxMessage(Guid id, DateTime occurredOnUtc, string type, string content, string? correlationId = null)
     {
         Id = id;
         OccurredOnUtc = occurredOnUtc;
         Content = content;
         Type = type;
+        CorrelationId = correlationId;
     }
 
     public Guid Id { get; set; }
@@ -19,6 +20,8 @@ public sealed class OutboxMessage
     public string Type { get; set; }
 
     public string Content { get; set; }
+
+    public string? CorrelationId { get; set; }
 
     public DateTime? ProcessedOnUtc { get; set; }
 

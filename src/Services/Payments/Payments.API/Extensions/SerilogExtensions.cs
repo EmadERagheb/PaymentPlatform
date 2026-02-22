@@ -17,7 +17,7 @@ public static class SerilogExtensions
             .Enrich.WithThreadId()
             .Enrich.WithEnvironmentName()
             .Enrich.WithProcessId()
-            .Enrich.WithProperty("Application", "TransactionsAPI")
+            .Enrich.WithProperty("Application", "PaymentsAPI")
             .ConfigureLokiSink(context.Configuration, context.HostingEnvironment)
             .ConfigureFilters(context.Configuration)
             .ConfigureEnrichment(context.HostingEnvironment);

@@ -1,3 +1,5 @@
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Transactions.Infrastructure.Persistence;
 
@@ -6,6 +8,9 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnC
           .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
           .AddEnvironmentVariables();
 // Add services to the container.
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<BuildingBlocks.Messaging.Correlation.ICorrelationIdHolder, BuildingBlocks.Messaging.Correlation.CorrelationIdHolder>();
+builder.Services.AddScoped<BuildingBlocks.Messaging.Correlation.ICorrelationIdAccessor, BuildingBlocks.Messaging.Correlation.HttpContextCorrelationIdAccessor>();
 builder.Services.AddInfrastructureServices(builder.Configuration, builder.Environment)
                  .AddApplicationServices(builder.Configuration)
                  .AddPresentation(builder.Configuration);
@@ -40,5 +45,8 @@ app.UseCustomExceptionHandler();
 app.UseStatusCodePagesWithReExecute("/errors/{0}");
 app.UseHttpsRedirection();
 app.MapControllers();
-
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 app.Run();

@@ -6,8 +6,12 @@ public class PaymentConfirmedEventHandler(ILogger<PaymentConfirmedEventHandler> 
 {
     public async Task Consume(ConsumeContext<PaymentConfirmedEvent> context)
     {
-        logger.LogInformation("Payment confirmed event received: {@Event}", context.Message);
-        var command = new CompleteTransactionCommand(context.Message.TransactionId);
-        await mediator.Send(command);
+        var correlationId = context.Message.CorrelationId ?? "transactions-consumer";
+        using (Serilog.Context.LogContext.PushProperty("CorrelationId", correlationId))
+        {
+            logger.LogInformation("Payment confirmed event received: {@Event}", context.Message);
+            var command = new CompleteTransactionCommand(context.Message.TransactionId);
+            await mediator.Send(command);
+        }
     }
 }

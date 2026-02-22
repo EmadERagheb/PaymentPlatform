@@ -1,11 +1,15 @@
-﻿namespace Payments.Application.Payments.Event.Domain;
+﻿using BuildingBlocks.Messaging.Correlation;
 
-public class PaymentFailedDomainEventHandler(IPublishEndpoint publishEndpoint, ILogger<PaymentFailedDomainEventHandler> logger) : INotificationHandler<PaymentFailedDomainEvent>
+namespace Payments.Application.Payments.Event.Domain;
+
+public class PaymentFailedDomainEventHandler(IPublishEndpoint publishEndpoint, ILogger<PaymentFailedDomainEventHandler> logger,
+     ICorrelationIdAccessor correlationIdAccessor) : INotificationHandler<PaymentFailedDomainEvent>
 {
     public async Task Handle(PaymentFailedDomainEvent notification, CancellationToken cancellationToken)
     {
         logger.LogInformation("Publishing payment failed event: {@Event}", notification);
-        var eventMessage = new FailedPaymentEvent(notification.PaymentId, notification.TransactionId, notification.Currency, notification.Amount, notification.FailureReason);
+        var correlationId = correlationIdAccessor.GetCorrelationId();
+        var eventMessage = new FailedPaymentEvent(notification.PaymentId, notification.TransactionId, notification.Currency, notification.Amount, notification.FailureReason, correlationId);
         await publishEndpoint.Publish(eventMessage, cancellationToken);
     }
 }

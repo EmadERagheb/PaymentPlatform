@@ -31,7 +31,7 @@ public static class DependencyInjection
                 return new BadRequestObjectResult(new ValidationProblemDetails(context.ModelState));
             };
         });
-
+        services.AddHealthChecks(configuration);
         return services;
 
     }
@@ -52,5 +52,9 @@ public static class DependencyInjection
         services.Configure<MessageBrokerOptions>(configuration.GetSection(MessageBrokerOptions.SectionName));
         return services;
     }
-
+    private static IServiceCollection AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddHealthChecks().AddSqlServer(configuration.GetConnectionString("DefaultConnection")!);
+        return services;
+    }
 }
