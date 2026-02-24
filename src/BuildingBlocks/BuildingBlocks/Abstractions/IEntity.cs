@@ -6,6 +6,7 @@ public interface IEntity
     public string? CreatedBy { get; set; }
     public DateTime LastModified { get; set; }
     public string? LastModifiedBy { get; set; }
+    public byte[] Version { get; set; }
 }
 
 public interface IEntity<T> : IEntity

@@ -1,11 +1,11 @@
-﻿namespace Transactions.Application.Transactions.Commands.AddTransactionItems;
+namespace Transactions.Application.Transactions.Commands.AddTransactionItems;
 
 public class AddTransactionItemsCommandHandler(ITransactionDbContext transactionDbContext, ILogger<AddTransactionItemsCommandHandler> logger) : ICommandHandler<AddTransactionItemsCommand, Result>
 {
     public async Task<Result> Handle(AddTransactionItemsCommand command, CancellationToken cancellationToken)
     {
         logger.LogInformation("Fetching transaction with ID {TransactionId} to add items.", command.TransactionId);
-        var transaction = await transactionDbContext.Transactions.Include(t => t.Items).Where(t => t.Id == TransactionId.Of(command.TransactionId)).FirstOrDefaultAsync(cancellationToken);
+        var transaction = await transactionDbContext.Transactions.Where(t => t.Id == TransactionId.Of(command.TransactionId)).FirstOrDefaultAsync(cancellationToken);
         if (transaction is null)
         {
             logger.LogError("Transaction with ID {TransactionId} not found.", command.TransactionId);

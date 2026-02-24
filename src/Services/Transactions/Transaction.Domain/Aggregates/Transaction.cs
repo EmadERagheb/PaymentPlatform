@@ -19,9 +19,11 @@ public class Transaction : AggregateRoot<TransactionId>
     }
     public void AddItem(string description, int quantity, decimal unitPrice)
     {
+        if (State != TransactionState.Draft)
+            throw new ValidationException([new ValidationError(nameof(State), "Only draft transactions can add items.")]);
         var item = new TransactionItem(Id, description, quantity, unitPrice);
         _items.Add(item);
-        RecalculateTotal();
+        RecalculateTotal(item);
     }
 
     public void Submit()
@@ -53,8 +55,10 @@ public class Transaction : AggregateRoot<TransactionId>
     }
 
 
-    private void RecalculateTotal()
+    private void RecalculateTotal(TransactionItem item)
     {
-        TotalAmount = new Money(_items.Sum(i => i.LineTotal), TotalAmount.Currency);
+       
+        var total = TotalAmount.Amount + item.LineTotal;
+        TotalAmount = new Money(total, TotalAmount.Currency);
     }
 }
