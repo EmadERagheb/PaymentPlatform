@@ -1,5 +1,3 @@
-using Transactions.Domain.Events;
-
 namespace Transactions.Domain.Aggregates;
 
 public class Transaction : AggregateRoot<TransactionId>

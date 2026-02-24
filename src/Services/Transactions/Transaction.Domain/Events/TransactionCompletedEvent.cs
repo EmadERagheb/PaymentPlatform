@@ -1,5 +1,4 @@
-﻿
-//namespace Transactions.Domain.Events;
+﻿//namespace Transactions.Domain.Events;
 
 //public sealed record TransactionCompletedEvent(Transaction Transaction) : IDomainEvent;
 
