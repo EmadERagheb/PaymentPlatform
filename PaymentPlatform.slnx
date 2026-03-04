@@ -22,6 +22,7 @@
   <Folder Name="/test/Services/" />
   <Folder Name="/test/Services/Transactions/">
     <Project Path="test/Services/Transactions/Transactions.ApplicationUnitTests/Transactions.ApplicationUnitTests.csproj" Id="cdada73e-eb8f-42d3-9171-09ab8c87b506" />
+    <Project Path="test/Services/Transactions/Transactions.ArchitectureTests/Transactions.ArchitectureTests.csproj" Id="c45d17ec-e904-42af-9c2d-e0a1471d0675" />
     <Project Path="test/Services/Transactions/Transactions.Domain.UnitTests/Transactions.Domain.UnitTests.csproj" Id="388f151d-789e-4a1b-8484-467c40db4b1e" />
     <Project Path="test/Services/Transactions/Transactions.IntegrationTests/Transactions.IntegrationTests.csproj" Id="4dccb1dc-9838-4d7c-9c6c-8ca69a33c6d6" />
   </Folder>

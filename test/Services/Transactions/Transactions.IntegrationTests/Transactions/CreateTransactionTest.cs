@@ -1,6 +1,8 @@
 ﻿using FluentAssertions;
 using Transactions.Application.Transactions.Commands.CreateTransaction;
 using Transactions.IntegrationTests.Fixtures;
+using BuildingBlocks.Exceptions;
+
 namespace Transactions.IntegrationTests.Transactions;
 
 public class CreateTransactionTest : BaseIntegrationTest
@@ -29,13 +31,13 @@ public class CreateTransactionTest : BaseIntegrationTest
     {
         // Arrange
         var request = new CreateTransactionCommand("INVALID");
+
         // Act
-        var response = await sender.Send(request);
+        Func<Task> act = async () => await sender.Send(request);
+
         // Assert
-        response.Should().NotBeNull();
-        response.IsFailure.Should().BeTrue();
-        response.Error.Should().NotBeNull();
-        response.Error.Code.Should().Be("InvalidCurrency");
+        var exception = await act.Should().ThrowAsync<ValidationException>();
+        exception.Which.Errors.Should().NotBeEmpty();
     }
 
 
